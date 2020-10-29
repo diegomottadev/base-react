@@ -1,26 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import DashboardRoutes from './DashboardRoutes';
+import Footer from './components/footer';
+import Header from './components/header';
+import Sidebar from './components/sidebar';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  constructor() {
+    super();
+    this.state = {
+      isLoggedIn: false,
+      user: {}
+    }
+  }
+  // check if user is authenticated and storing authentication data as states if true
+  componentWillMount() {
+    let state = localStorage["appState"];
+    if (state) {
+      let AppState = JSON.parse(state);
+      this.setState({ isLoggedIn: AppState.isLoggedIn, user: AppState.user });
+    }
+  }
+  // 4.1
+  render() {
+    return (
+      <div>
+        
+        <Header userData={this.state.user} userIsLoggedIn={this.state.isLoggedIn}/>
+        <Sidebar/>
+        <DashboardRoutes/>
+        <Footer />
+      </div>
+    )
+  }
 }
-
 export default App;
